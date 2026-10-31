@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Revit Python</title>
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
+
+
+	<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<link id="theme-style" rel="stylesheet" type="text/css" href="">
+
+
+	<style type="text/css">
+		.img-container{
+			max-width: 600px;
+		}
+
+		img{
+			width: 70%;
+		}
+
+	</style>
+
+</head>
+<body>
+<section class="s1">
+	<div class="nav-wrapper">
+
+		<!-- Link -->
+		<div id="navigation" class="dots-wrapper">
+							<div><p><a href="index.html">blendinit.ru</a></p></div>
+
+						</div>
+		</a>
+
+		<ul id="navigation" class="dots-wrapper" >
+						<li><a href="index.html">Main page</a></li>
+
+					</ul>
+	</div>
+
+	<div class="main-container">
+		<br>
+		
+		<h3>Python + Revit API шпаргалка</h3>
+
+		<p>Я устал периодически искать отдельные команды по зоопарку скриптов, поэтому решил сделать общую страницу с блоками кода</p>
+		<h5>Шапка скрипта</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler') .style.display=='none') {document.getElementById('spoiler') .style.display=''}else{document.getElementById('spoiler') .style.display='none'}">Показать</button>
+		<div id="spoiler" style="display:none">
+		<pre>
+			<code>
+			
+import clr
+# Import the Revit API
+clr.AddReference('RevitAPI')
+import Autodesk
+from Autodesk.Revit.DB import *
+			
+# Import DocumentManager and TransactionManager
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+#Making windows
+clr.AddReference('RevitAPIUI')
+from Autodesk.Revit.UI import *
+from Autodesk.Revit.UI.Selection import *
+			
+uiapp = DocumentManager.Instance.CurrentUIApplication
+uidoc = uiapp.ActiveUIDocument
+			
+doc = DocumentManager.Instance.CurrentDBDocument
+			
+element = UnwrapElement(IN[0])
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Выбор нескольких элементов</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler1') .style.display=='none') {document.getElementById('spoiler1') .style.display=''}else{document.getElementById('spoiler1') .style.display='none'}">Показать</button>
+		<div id="spoiler1" style="display:none">
+		<pre>
+			<code>
+			
+# getting preselected elements
+selection = uidoc.Selection.GetElementIds() #preselected elements ids
+elements = doc.GetElement(i) for i in selection.GetElementIds()] 
+# choose elements
+selection = uidoc.Selection.PickObjects(ObjectType.Element)
+elements = [doc.GetElement(i) for i in selection]
+				
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Отрисовка простого окна с текстом</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler2') .style.display=='none') {document.getElementById('spoiler2') .style.display=''}else{document.getElementById('spoiler2') .style.display='none'}">Показать</button>
+		<div id="spoiler2" style="display:none">
+		<pre>
+			<code>
+TaskDialog.Show('Заголовок', 'Основной текст')			
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Проведение транзакций для внесения изменений в модель</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler3') .style.display=='none') {document.getElementById('spoiler3') .style.display=''}else{document.getElementById('spoiler3') .style.display='none'}">Показать</button>
+		<div id="spoiler3" style="display:none">
+		<pre>
+			<code>
+TransactionManager.Instance.EnsureInTransaction(doc)
+element.LookupParameter('Комментарии').Set(mark)
+TransactionManager.Instance.TransactionTaskDone()
+			</code>
+		</pre>
+	</div>
+		<br>		
+		<h5>Фильтр по категории из связного файла</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler4') .style.display=='none') {document.getElementById('spoiler4') .style.display=''}else{document.getElementById('spoiler4') .style.display='none'}">Показать</button>
+		<div id="spoiler4" style="display:none">
+		<pre>
+			<code>
+link = UnwrapElement(IN[0])
+cat = UnwrapElement(IN[1])
+linkDoc = link.GetLinkDocument()
+catFilter = ElementCategoryFilter(cat.Id)
+linkedElements = list(FilteredElementCollector(linkDoc).WherePasses(catFilter).WhereElementIsNotElementType())			
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Поиск семейства</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler5') .style.display=='none') {document.getElementById('spoiler5') .style.display=''}else{document.getElementById('spoiler5') .style.display='none'}">Показать</button>
+		<div id="spoiler5" style="display:none">
+		<pre>
+			<code>
+family_symbol_name = "_MAG Вывод"
+family_symbol = None
+collector = FilteredElementCollector(doc)
+family_symbols = collector.OfClass(FamilySymbol).ToElements()
+for symbol in family_symbols:
+	if symbol.FamilyName == family_symbol_name:
+		family_symbol = symbol
+		break
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Значение параметра по его названию</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler6') .style.display=='none') {document.getElementById('spoiler6') .style.display=''}else{document.getElementById('spoiler6') .style.display='none'}">Показать</button>
+		<div id="spoiler6" style="display:none">
+		<pre>
+			<code>
+element.LookupParameter('TSL_Id исходного элемента').AsString()
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Значение встроенного параметра</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler7') .style.display=='none') {document.getElementById('spoiler7') .style.display=''}else{document.getElementById('spoiler7') .style.display='none'}">Показать</button>
+		<div id="spoiler7" style="display:none">
+		<pre>
+			<code>
+equipment.get_Parameter(BuiltInParameter.RBS_SYSTEM_CLASSIFICATION_PARAM).AsString()
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Поиск координат объекта XYZ</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler8') .style.display=='none') {document.getElementById('spoiler8') .style.display=''}else{document.getElementById('spoiler8') .style.display='none'}">Показать</button>
+		<div id="spoiler8" style="display:none">
+		<pre>
+			<code>
+location = element.Location.Point
+location = origin.OfPoint(location)
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Нахождения пространства в точке</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler9') .style.display=='none') {document.getElementById('spoiler9') .style.display=''}else{document.getElementById('spoiler9') .style.display='none'}">Показать</button>
+		<div id="spoiler9" style="display:none">
+		<pre>
+			<code>
+space = doc.GetSpaceAtPoint(location)
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Нахождения типоразмера элемента</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler10') .style.display=='none') {document.getElementById('spoiler10') .style.display=''}else{document.getElementById('spoiler10') .style.display='none'}">Показать</button>
+		<div id="spoiler10" style="display:none">
+		<pre>
+			<code>
+typeId = equipment.GetTypeId()
+type = doc.GetElement(typeId)			
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Элементы в цепи</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler11') .style.display=='none') {document.getElementById('spoiler11') .style.display=''}else{document.getElementById('spoiler11') .style.display='none'}">Показать</button>
+		<div id="spoiler11" style="display:none">
+		<pre>
+			<code>
+
+circuit.Elements
+
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Конвертация параметра человеческий/Revit</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler12') .style.display=='none') {document.getElementById('spoiler12') .style.display=''}else{document.getElementById('spoiler12') .style.display='none'}">Показать</button>
+		<div id="spoiler12" style="display:none">
+		<pre>
+			<code>
+def convertFrom(x):
+    try:
+        length = UnitUtils.ConvertFromInternalUnits(x, UnitTypeId.Millimeters)
+    except:
+        length = UnitUtils.ConvertFromInternalUnits(x, DisplayUnitType.DUT_MILLIMETERS)
+    return length
+
+
+def convertTo(x):
+    try:
+        bits = UnitUtils.ConvertToInternalUnits(x, UnitTypeId.Millimeters)
+    except:
+        bits = UnitUtils.ConvertToInternalUnits(x, DisplayUnitType.DUT_MILLIMETERS)
+    return bits
+
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Фильтрация вложенных семейств</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler14') .style.display=='none') {document.getElementById('spoiler14') .style.display=''}else{document.getElementById('spoiler14') .style.display='none'}">Показать</button>
+		<div id="spoiler14" style="display:none">
+		<pre>
+			<code>
+element.SuperComponent == None
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Натуральная сортировка</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler15') .style.display=='none') {document.getElementById('spoiler15') .style.display=''}else{document.getElementById('spoiler15') .style.display='none'}">Показать</button>
+		<div id="spoiler15" style="display:none">
+		<pre>
+			<code>
+def make_natural(s):
+	return [int(text) if text.isdigit() else text.lower() for text in re.split('(\d+)', s)]
+o_cable = sorted(cable, key=make_natural)
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Удаление строк ключевой спецификации и создание новой</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler16') .style.display=='none') {document.getElementById('spoiler16') .style.display=''}else{document.getElementById('spoiler16') .style.display='none'}">Показать</button>
+		<div id="spoiler16" style="display:none">
+		<pre>
+			<code>
+colTableData = schedule.GetTableData()
+tsd = colTableData.GetSectionData(SectionType.Body)
+tsd.InsertRow(1)
+last_row(schedule).LookupParameter('KT_Наименование и техническая характеристика').Set('2. Кабельно-проводниковая продукция')
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Выбор последний строки ключевой спецификации (по ключевому номеру)</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler17') .style.display=='none') {document.getElementById('spoiler17') .style.display=''}else{document.getElementById('spoiler17') .style.display='none'}">Показать</button>
+		<div id="spoiler17" style="display:none">
+		<pre>
+			<code>
+def last_row(schedule):
+	key_name = 0
+	rows = UnwrapElement(FilteredElementCollector(doc, schedule.Id).ToElements())
+	for j in rows:
+		if int(j.get_Parameter(BuiltInParameter.REF_TABLE_ELEM_NAME).AsString()) > key_name:
+			key_name = int(j.get_Parameter(BuiltInParameter.REF_TABLE_ELEM_NAME).AsString())
+			row = doc.GetElement(j.Id)
+	return row
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Удаление цифр из строки и наоборот</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler18') .style.display=='none') {document.getElementById('spoiler18') .style.display=''}else{document.getElementById('spoiler18') .style.display='none'}">Показать</button>
+		<div id="spoiler18" style="display:none">
+		<pre>
+			<code>
+str(''.join([n for n in i if not n.isdigit()]))  + str(''.join([n for n in i if n.isdigit()])) + 'мм'
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Фильтры всех элементов по категории</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler20') .style.display=='none') {document.getElementById('spoiler20') .style.display=''}else{document.getElementById('spoiler20') .style.display='none'}">Показать</button>
+		<div id="spoiler20" style="display:none">
+		<pre>
+			<code>
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_GenericAnnotation) #типовые аннотации
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_LightingFixtures).OfClass(FamilyInstance) #осветительные приборы
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_LightingDevices).OfClass(FamilyInstance) #выключатели
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ElectricalFixtures).OfClass(FamilyInstance) #розетки
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_CableTray).OfClass(FamilyInstance) #лотки
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_CableTrayFitting).OfClass(FamilyInstance) #соединители кабельных лотков
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DuctLinings).OfClass(FamilyInstance) #воздуховоды
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_DuctFitting).OfClass(FamilyInstance) #соединители воздуховодов
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ElectricalEquipment).OfClass(FamilyInstance) #электрическое оборудование
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Levels).WhereElementIsNotElementType().ToElements() #уровни
+FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_MEPSpaces).ToElements() #пространства
+FilteredElementCollector(linkDoc).OfCategory(BuiltInCategory.OST_Rooms).WhereElementIsNotElementType().ToElements() #помещения
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Поворот элемента</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler21') .style.display=='none') {document.getElementById('spoiler21') .style.display=''}else{document.getElementById('spoiler21') .style.display='none'}">Показать</button>
+		<div id="spoiler21" style="display:none">
+		<pre>
+			<code>
+location = element.Location.Point
+p1 = location
+p2 = XYZ(location[0], location[1], 1)
+myLine = Line.CreateBound(p1, p2)
+ElementTransformUtils.RotateElement(doc, new.Id, myLine, math.pi / 2)
+				
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Добавить элементы в цепь</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler22') .style.display=='none') {document.getElementById('spoiler22') .style.display=''}else{document.getElementById('spoiler22') .style.display='none'}">Показать</button>
+		<div id="spoiler22" style="display:none">
+		<pre>
+			<code>
+eset = ElementSet()
+eset.Insert(newElement)
+if panel != '':
+	for circuit in all_circuits:
+		if circuit.Name == panel:
+			circuit.AddToCircuit(eset)
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Фильтрация зависимых элементов</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler23') .style.display=='none') {document.getElementById('spoiler23') .style.display=''}else{document.getElementById('spoiler23') .style.display='none'}">Показать</button>
+		<div id="spoiler23" style="display:none">
+		<pre>
+			<code>
+ids = element.GetDependentElements(ElementCategoryFilter(BuiltInCategory.OST_ElectricalFixtureTags))
+			</code>
+		</pre>
+	</div>
+	<br>
+	<h5>Выделить элемент в модели (как в спецификации)</h5>
+	<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler24') .style.display=='none') {document.getElementById('spoiler24') .style.display=''}else{document.getElementById('spoiler24') .style.display='none'}">Показать</button>
+	<div id="spoiler24" style="display:none">
+	<pre>
+		<code>
+uidoc.ShowElements(element)
+		</code>
+	</pre>
+</div>
+		<br>
+		<h5>Удаление и создание строк ключевой спецификации</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler19') .style.display=='none') {document.getElementById('spoiler19') .style.display=''}else{document.getElementById('spoiler19') .style.display='none'}">Показать</button>
+		<div id="spoiler19" style="display:none">
+		<pre>
+			<code>
+# Delete old Schedule
+[doc.Delete(i.Id) for i in UnwrapElement(FilteredElementCollector(doc, schedule.Id).ToElements())]
+# get schedule data
+colTableData = schedule.GetTableData()
+tsd = colTableData.GetSectionData(SectionType.Body)
+#make a row
+row = tsd.InsertRow(1)
+row.LookupParameter('KT_Наименование и техническая характеристика').Set('2. Кабельно-проводниковая продукция')
+			</code>
+		</pre>
+	</div>
+		<br>
+		<h5>Сбор всех элементов с активного вида с фильтрацией по категории</h5>
+		<button title="Click to Show/Hide Content" type="button" onclick="if(document.getElementById('spoiler13') .style.display=='none') {document.getElementById('spoiler13') .style.display=''}else{document.getElementById('spoiler13') .style.display='none'}">Показать</button>
+		<div id="spoiler13" style="display:none">
+		<pre>
+			<code>
+active_view = doc.ActiveView
+elements = FilteredElementCollector(doc, active_view.Id).OfCategory(BuiltInCategory.OST_GenericAnnotation).WhereElementIsNotElementType()
+			</code>
+		</pre>
+	</div>
+	<br>
+	</div>
+	</section>
+	<section class="s2" id="footer">
+		<div class="main-container">
+
+			<p><a href="mailto:alex@blendinit.ru"> alex@blendinit.ru </a></p>
+			<p>
+				<script>document.write(new Date().getFullYear());</script>
+			</p>
+
+
+		</div>
+	</section>
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>

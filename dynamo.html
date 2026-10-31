@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Dynamo скрипты</title>
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
+
+
+	<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<link id="theme-style" rel="stylesheet" type="text/css" href="">
+
+
+	<style type="text/css">
+		.img-container{
+			max-width: 600px;
+		}
+
+		img{
+			width: 70%;
+		}
+
+	</style>
+
+</head>
+<body>
+<section class="s1">
+	<div class="nav-wrapper">
+
+		<!-- Link -->
+		<div id="navigation" class="dots-wrapper">
+							<div><p><a href="index.html">blendinit.ru</a></p></div>
+
+						</div>
+		</a>
+
+		<ul id="navigation" class="dots-wrapper" >
+						<li><a href="index.html">Main page</a></li>
+
+					</ul>
+	</div>
+
+	<div class="main-container">
+		<br>
+		
+		<h3>Dynamo скрипты</h3>
+
+		<p>Порой приходится забивать гвозди микроскопом. Или наоборот.</p>
+		<h5>Занесение групп в комментарий</h5>
+		<div class="img-container">
+			<a href="images/dynamo/name1.jpg"><img src="images/dynamo/name1.jpg"></a>
+		</div>
+		<p>Скрипт собирает наименование групп электрооборудования и электрических приборов для занесения в обобщённую модель кабельной линии (параметр "Комментарии"). Предварительно должна быть произведена параметризация имени цепи в Тесле (заполнен параметр "TSL_Номер питающей цепи"). Протестирован в Revit 2020 и 2023. </p>
+		<div><p><a href="https://disk.yandex.ru/d/Qy-v3KGRB46Y2A">Скачать с ya.disk</a></p></div>
+		<br>
+
+		<h5>Занесение групп в комментарий с группировкой</h5>
+		<div class="img-container">
+			<a href="images/dynamo/name2.jpg"><img src="images/dynamo/name2.jpg"></a>
+		</div>
+		<p>Скрипт собирает наименование групп электрооборудования и электрических приборов для занесения в обобщённую модель кабельной линии (параметр "Комментарии"). Для корректной работы требуется наименование групп вида РП2-5 или ЩВ-Б02-1 (перед номером - дефис). Предварительно должна быть произведена параметризация имени цепи в Тесле (заполнен параметр "TSL_Номер питающей цепи"). Версии для Revit 2020 и 2023. </p>
+		<div><p><a href="https://disk.yandex.ru/d/Qy-v3KGRB46Y2A">Скачать с ya.disk</a></p></div>
+		<br>
+
+		<h5>Подбор трубы v.0.1</h5>
+		<div class="img-container">
+			<a href="images/dynamo/hf01.jpg"><img src="images/dynamo/hf01.jpg"></a>
+		</div>
+		<p>Скрипт берёт марку кабеля, по эксельной табличке подбирает подходящий диаметр и заносит в способ прокладки. Дополнительно можно указать прокладку в лотке. Ничего не считает. Протестирован в Revit 2023.</p>
+		<div><p><a href="https://disk.yandex.ru/d/jblLdvPy32NmSA">Скачать с ya.disk</a></p></div>
+
+		<h5>Расчёт трубной прокладки с планов</h5>
+		<div class="img-container">
+			<a href="images/dynamo/gr02.jpg"><img src="images/dynamo/gr02.jpg"></a>
+			<a href="images/dynamo/gr01.jpg"><img src="images/dynamo/gr01.jpg"></a>
+		</div>
+		<p>При выборе автоматов однолинейных схем берёт название групп и ищет их в обобщённых моделях в параметре <a href="https://disk.yandex.ru/d/wPXqrkvCx-3-Hg">"Комментарии"</a>, при этом "Линия" считается за прокладку в ПП трубе, "Линия в трубе" - в стальных трубах.</p>
+		<p>Далее данные заносятся в параметры электрических цепей (MAG_Длина трубы ПП (число), MAG_Длина трубы ст(число), MAG_Длина в лотке(число), MAG_название трубы и MAG_Способ прокладки(текст)), а способы прокладки - в однолинейные схемы. Версии для Revit 2020 и 2023.</p>
+		<div><p><a href="https://disk.yandex.ru/d/jblLdvPy32NmSA">Скачать с ya.disk</a></p></div>
+
+		<h5>Высота из помещений в пространства</h5>
+		<!-- <div class="img-container">
+			<a href="images/dynamo/hf01.jpg"><img src="images/dynamo/hf01.jpg"></a>
+		</div> -->
+		<p>Переносит полную высоту из помещения в параметр "смещение сверху" пространства. Подразумевается, что файл архитектуры содержит "_AR_" в названии.</p>
+		<p>Протестирован в Revit 2023.</p>
+		<div><p><a href="https://disk.yandex.ru/d/aqoHgQ0X51nsTA">Скачать с ya.disk</a></p></div>
+
+		<h5>Оборудование ТХ в вывод</h5>
+		<div class="img-container">
+			<a href="images/dynamo/th_before.png"><img src="images/dynamo/th_before.png"></a>
+		</div>
+		<div class="img-container">
+			<a href="images/dynamo/th_after.png"><img src="images/dynamo/th_after.png"></a>
+		</div>
+		<p>Полезно на стадии П, когда технологи расставляют оборудование, но не дают задание. Для работы необходимы пространства.</p>
+		<p>В связной модели TECH ищет оборудование с классом нагрузки "Мощность" и на его месте в модели ставит семейство вывода с заполненными параметрами. Идентификатор связной модели оборудования переносится в параметр экземпляра "TSL_Id исходного элемента".</p>
+		<p>Позиция оборудования записывается в параметр "ТХ позиция" (текст)</p>
+		<p>В дальнейшем, если от одного семейства электрического прибора запитано несколько устройств ТХ, то в параметре "TSL_Id исходного элемента" идентификаторы нужно разделять символом ;</p>
+		<p>Работает в Revit 2023, в предыдущих версиях работать не будет.</p>
+		<div><p><a href="https://disk.yandex.ru/d/OWhSROxgLfnNSg">Скачать с ya.disk</a></p></div>
+		
+		<h5>Перенос нагрузки из щита в автомат</h5>
+		<!-- <div class="img-container">
+			<a href="images/dynamo/hf01.jpg"><img src="images/dynamo/hf01.jpg"></a>
+		</div> -->
+		<p>На случай, если Тесла странно синхронизирует автомат, например, в грщ и отходящий от него щит.</p>
+		
+		<div><p><a href="https://disk.yandex.ru/d/pHucLE5aVhuhag">Скачать с ya.disk R23</a></p></div>
+		<div><p><a href="https://disk.yandex.ru/d/h5enSvXcCHR9aA">Скачать с ya.disk R21</a></p></div>
+
+	</div>
+	</section>
+	<section class="s2" id="footer">
+		<div class="main-container">
+
+			<p><a href="mailto:alex@blendinit.ru"> alex@blendinit.ru </a></p>
+			<p>
+				<script>document.write(new Date().getFullYear());</script>
+			</p>
+
+
+		</div>
+	</section>
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
